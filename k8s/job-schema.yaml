@@ -1,0 +1,47 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-migration-schema
+  namespace: default
+  labels:
+    app: db-migration
+    type: schema
+spec:
+  # Job will be automatically cleaned up after 1 hour
+  ttlSecondsAfterFinished: 3600
+  backoffLimit: 3
+  template:
+    metadata:
+      labels:
+        app: db-migration
+        type: schema
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: migrator
+        image: your-registry/fundii-database-migration:latest
+        imagePullPolicy: Always
+        command: ["./migrator"]
+        args:
+          - "-db=all"
+          - "-type=schema"
+          - "-action=up"
+          - "-verbose=true"
+        env:
+        - name: POSTGRES_DSN
+          valueFrom:
+            secretKeyRef:
+              name: database-credentials
+              key: POSTGRES_DSN
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: database-credentials
+              key: MONGO_URI
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "200m"

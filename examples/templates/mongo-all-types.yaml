@@ -1,0 +1,174 @@
+database:
+  type: mongo
+  name: product
+
+collection:
+  name: data_types_demo
+  validator:
+    $jsonSchema:
+      bsonType: object
+      required: [name, email, status, createdAt]
+      properties:
+        # ObjectId - MongoDB default _id
+        _id:
+          bsonType: objectId
+          description: "MongoDB ObjectId"
+        
+        # String
+        name:
+          bsonType: string
+          description: "User name"
+          minLength: 3
+          maxLength: 100
+        
+        email:
+          bsonType: string
+          pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+          description: "Valid email address"
+        
+        # String with enum
+        status:
+          bsonType: string
+          enum: [pending, active, completed, cancelled]
+          description: "Status enum"
+        
+        # Integer (32-bit)
+        count:
+          bsonType: int
+          minimum: 0
+          maximum: 1000
+          description: "32-bit integer"
+        
+        # Long (64-bit)
+        bigCount:
+          bsonType: long
+          description: "64-bit integer"
+        
+        # Double (floating point)
+        price:
+          bsonType: double
+          minimum: 0
+          description: "Floating point number"
+        
+        # Decimal128 (high precision)
+        precisePrice:
+          bsonType: decimal
+          description: "High precision decimal"
+        
+        # Boolean
+        isActive:
+          bsonType: bool
+          description: "Boolean flag"
+        
+        # Date
+        createdAt:
+          bsonType: date
+          description: "UTC datetime"
+        
+        updatedAt:
+          bsonType: date
+        
+        # ObjectId reference
+        userId:
+          bsonType: objectId
+          description: "Reference to user"
+        
+        # Array of strings
+        tags:
+          bsonType: array
+          items:
+            bsonType: string
+          minItems: 0
+          maxItems: 10
+          uniqueItems: true
+          description: "Array of unique strings"
+        
+        # Array of numbers
+        scores:
+          bsonType: array
+          items:
+            bsonType: int
+          description: "Array of integers"
+        
+        # Array of objects
+        history:
+          bsonType: array
+          items:
+            bsonType: object
+            required: [action, timestamp]
+            properties:
+              action:
+                bsonType: string
+              timestamp:
+                bsonType: date
+              metadata:
+                bsonType: object
+        
+        # Nested object (embedded document)
+        address:
+          bsonType: object
+          required: [city, country]
+          properties:
+            street:
+              bsonType: string
+            city:
+              bsonType: string
+            country:
+              bsonType: string
+            postalCode:
+              bsonType: string
+              pattern: "^[0-9]{5}$"
+            location:
+              bsonType: object
+              properties:
+                latitude:
+                  bsonType: double
+                longitude:
+                  bsonType: double
+        
+        # Object without schema
+        metadata:
+          bsonType: object
+          description: "Flexible metadata object"
+        
+        # Settings object
+        settings:
+          bsonType: object
+          properties:
+            notifications:
+              bsonType: bool
+            theme:
+              bsonType: string
+              enum: [light, dark]
+            language:
+              bsonType: string
+        
+        # Binary data
+        fileData:
+          bsonType: binData
+          description: "Binary file data"
+        
+        # Null type (optional field)
+        optionalField:
+          bsonType: ["string", "null"]
+          description: "Can be string or null"
+        
+        # Multiple types
+        mixedField:
+          bsonType: ["string", "int", "double"]
+          description: "Can be string, int, or double"
+        
+        # Nested array of arrays
+        matrix:
+          bsonType: array
+          items:
+            bsonType: array
+            items:
+              bsonType: int
+  
+  indexes:
+    - keys: {email: 1}
+      unique: true
+    - keys: {status: 1, createdAt: -1}
+    - keys: {name: "text"}
+    - keys: {"address.city": 1}

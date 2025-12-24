@@ -1,0 +1,54 @@
+services:
+  # PostgreSQL Server (one host, multiple databases)
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-databases.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Migrate Product Database
+  migrate-product:
+    build: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      POSTGRES_DSN: "postgres://user:password@postgres:5432/product?sslmode=disable"
+    command: ["-db=postgres", "-type=schema", "-action=up", "-verbose=true"]
+
+  # Migrate User Database
+  migrate-user:
+    build: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate-product:
+        condition: service_completed_successfully
+    environment:
+      POSTGRES_DSN: "postgres://user:password@postgres:5432/user?sslmode=disable"
+    command: ["-db=postgres", "-type=schema", "-action=up", "-verbose=true"]
+
+  # Migrate Order Database
+  migrate-order:
+    build: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate-user:
+        condition: service_completed_successfully
+    environment:
+      POSTGRES_DSN: "postgres://user:password@postgres:5432/order?sslmode=disable"
+    command: ["-db=postgres", "-type=schema", "-action=up", "-verbose=true"]
+
+volumes:
+  postgres_data:

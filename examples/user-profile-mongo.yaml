@@ -1,0 +1,127 @@
+database:
+  type: mongo
+  name: user
+
+collection:
+  name: profiles
+  validator:
+    $jsonSchema:
+      bsonType: object
+      required: [userId, email, createdAt]
+      properties:
+        userId:
+          bsonType: objectId
+          description: "Reference to user account"
+        
+        email:
+          bsonType: string
+          pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+          description: "Valid email address"
+        
+        name:
+          bsonType: object
+          required: [first, last]
+          properties:
+            first:
+              bsonType: string
+              minLength: 1
+            last:
+              bsonType: string
+              minLength: 1
+            middle:
+              bsonType: string
+        
+        phone:
+          bsonType: string
+          pattern: "^[0-9]{10}$"
+        
+        age:
+          bsonType: int
+          minimum: 0
+          maximum: 150
+        
+        gender:
+          bsonType: string
+          enum: [male, female, other, prefer_not_to_say]
+        
+        tags:
+          bsonType: array
+          items:
+            bsonType: string
+          uniqueItems: true
+        
+        address:
+          bsonType: object
+          properties:
+            street:
+              bsonType: string
+            city:
+              bsonType: string
+            state:
+              bsonType: string
+            country:
+              bsonType: string
+            postalCode:
+              bsonType: string
+            location:
+              bsonType: object
+              properties:
+                latitude:
+                  bsonType: double
+                  minimum: -90
+                  maximum: 90
+                longitude:
+                  bsonType: double
+                  minimum: -180
+                  maximum: 180
+        
+        preferences:
+          bsonType: object
+          properties:
+            notifications:
+              bsonType: bool
+            newsletter:
+              bsonType: bool
+            theme:
+              bsonType: string
+              enum: [light, dark, auto]
+            language:
+              bsonType: string
+        
+        settings:
+          bsonType: object
+        
+        socialLinks:
+          bsonType: object
+          properties:
+            facebook:
+              bsonType: string
+            twitter:
+              bsonType: string
+            linkedin:
+              bsonType: string
+            instagram:
+              bsonType: string
+        
+        isActive:
+          bsonType: bool
+        
+        isVerified:
+          bsonType: bool
+        
+        lastLoginAt:
+          bsonType: date
+        
+        createdAt:
+          bsonType: date
+        
+        updatedAt:
+          bsonType: date
+  
+  indexes:
+    - keys: {userId: 1}
+      unique: true
+    - keys: {email: 1}
+      unique: true
+    - keys: {"name.first": 1, "name.last": 1}
+    - keys: {createdAt: -1}

@@ -1,0 +1,103 @@
+database:
+  type: postgres
+  name: product
+
+table:
+  name: products
+  columns:
+    - name: id
+      type: SERIAL
+      primary_key: true
+    
+    - name: sku
+      type: VARCHAR(100)
+      not_null: true
+      unique: true
+    
+    - name: name
+      type: VARCHAR(255)
+      not_null: true
+    
+    - name: description
+      type: TEXT
+    
+    - name: price
+      type: DECIMAL(10,2)
+      not_null: true
+    
+    - name: cost
+      type: DECIMAL(10,2)
+    
+    - name: stock
+      type: INTEGER
+      default: 0
+      not_null: true
+    
+    - name: category
+      type: VARCHAR(100)
+      not_null: true
+    
+    - name: brand
+      type: VARCHAR(100)
+    
+    - name: weight
+      type: DECIMAL(8,3)
+    
+    - name: dimensions
+      type: JSONB
+    
+    - name: is_active
+      type: BOOLEAN
+      default: true
+    
+    - name: is_featured
+      type: BOOLEAN
+      default: false
+    
+    - name: metadata
+      type: JSONB
+    
+    - name: images
+      type: TEXT[]
+    
+    - name: tags
+      type: TEXT[]
+    
+    - name: rating
+      type: DECIMAL(3,2)
+    
+    - name: review_count
+      type: INTEGER
+      default: 0
+    
+    - name: created_at
+      type: TIMESTAMPTZ
+      default: CURRENT_TIMESTAMP
+    
+    - name: updated_at
+      type: TIMESTAMPTZ
+      default: CURRENT_TIMESTAMP
+
+  indexes:
+    - name: idx_products_sku
+      columns: [sku]
+      unique: true
+    
+    - name: idx_products_name
+      columns: [name]
+    
+    - name: idx_products_category
+      columns: [category]
+    
+    - name: idx_products_brand
+      columns: [brand]
+    
+    - name: idx_products_is_active
+      columns: [is_active]
+    
+    - name: idx_products_metadata
+      columns: [metadata]
+      type: GIN
+    
+    - name: idx_products_created_at
+      columns: [created_at]

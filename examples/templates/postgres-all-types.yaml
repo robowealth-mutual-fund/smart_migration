@@ -1,0 +1,108 @@
+database:
+  type: postgres
+  name: product
+
+table:
+  name: data_types_demo
+  columns:
+    # Primary key - Auto-increment
+    - name: id
+      type: SERIAL
+      primary_key: true
+    
+    # UUID alternative primary key
+    - name: uuid_id
+      type: UUID
+      default: gen_random_uuid()
+    
+    # Integer types
+    - name: small_number
+      type: SMALLINT
+    - name: regular_number
+      type: INTEGER
+    - name: big_number
+      type: BIGINT
+    
+    # Decimal types
+    - name: price
+      type: DECIMAL(10,2)
+      not_null: true
+    - name: precise_value
+      type: NUMERIC(15,5)
+    
+    # Floating point
+    - name: float_value
+      type: REAL
+    - name: double_value
+      type: DOUBLE PRECISION
+    
+    # String types
+    - name: short_code
+      type: VARCHAR(50)
+      not_null: true
+    - name: fixed_code
+      type: CHAR(10)
+    - name: description
+      type: TEXT
+    
+    # Boolean
+    - name: is_active
+      type: BOOLEAN
+      default: true
+    
+    # Date and time
+    - name: birth_date
+      type: DATE
+    - name: start_time
+      type: TIME
+    - name: created_at
+      type: TIMESTAMP
+      default: CURRENT_TIMESTAMP
+    - name: updated_at
+      type: TIMESTAMPTZ
+      default: CURRENT_TIMESTAMP
+    - name: time_duration
+      type: INTERVAL
+    
+    # JSON types
+    - name: json_data
+      type: JSON
+    - name: jsonb_data
+      type: JSONB
+    
+    # Array types
+    - name: tags
+      type: TEXT[]
+    - name: scores
+      type: INTEGER[]
+    - name: price_list
+      type: DECIMAL(10,2)[]
+    
+    # Binary data
+    - name: file_data
+      type: BYTEA
+    
+    # Network types
+    - name: ip_address
+      type: INET
+    - name: mac_address
+      type: MACADDR
+    - name: cidr_block
+      type: CIDR
+    
+    # Special types
+    - name: location_point
+      type: POINT
+    - name: money_amount
+      type: MONEY
+    - name: xml_document
+      type: XML
+
+  indexes:
+    - name: idx_data_types_code
+      columns: [short_code]
+    - name: idx_data_types_jsonb
+      columns: [jsonb_data]
+      type: GIN
+    - name: idx_data_types_created
+      columns: [created_at]

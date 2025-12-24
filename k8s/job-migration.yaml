@@ -1,0 +1,56 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-migration
+  namespace: default
+  labels:
+    app: db-migration
+spec:
+  # Job will be automatically cleaned up after 1 hour
+  ttlSecondsAfterFinished: 3600
+  backoffLimit: 3
+  template:
+    metadata:
+      labels:
+        app: db-migration
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: migrator
+        image: your-registry/fundii-database-migration:latest
+        imagePullPolicy: Always
+        
+        # Run the smart migration script
+        command: ["/bin/sh"]
+        args: ["-c", "./migrate-changed-only.sh"]
+        
+        env:
+        # PostgreSQL Configuration
+        - name: POSTGRES_HOST
+          value: "postgres-service"
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: database-credentials
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: database-credentials
+              key: POSTGRES_PASSWORD
+        
+        # MongoDB Configuration
+        - name: MONGO_HOST
+          value: "mongo-service"
+        - name: MONGO_PORT
+          value: "27017"
+        
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "200m"
+          limits:
+            memory: "256Mi"
+            cpu: "400m"

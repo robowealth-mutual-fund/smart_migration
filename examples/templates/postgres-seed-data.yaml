@@ -1,0 +1,68 @@
+database:
+  type: postgres
+  name: product
+
+# Seed data - สำหรับเติมข้อมูลเบื้องต้น
+seed:
+  table: products
+  
+  # คำแนะนำ: ใส่ข้อมูลลงใน rows
+  rows:
+    - sku: "PROD-001"
+      name: "MacBook Pro 16-inch"
+      description: "Apple MacBook Pro with M3 Max chip"
+      price: 89990.00
+      cost: 65000.00
+      stock: 50
+      category: "Laptops"
+      brand: "Apple"
+      weight: 2.16
+      dimensions: '{"width": 35.57, "height": 24.81, "depth": 1.68}'
+      is_active: true
+      is_featured: true
+      metadata: '{"warranty": "1 year", "color": "Space Gray"}'
+      images: '{"images/macbook-1.jpg", "images/macbook-2.jpg"}'
+      tags: '{"laptop", "apple", "macbook", "m3"}'
+      rating: 4.85
+      review_count: 127
+    
+    - sku: "PROD-002"
+      name: "iPhone 15 Pro Max"
+      description: "Latest iPhone with A17 Pro chip"
+      price: 45990.00
+      cost: 32000.00
+      stock: 100
+      category: "Smartphones"
+      brand: "Apple"
+      weight: 0.221
+      dimensions: '{"width": 7.69, "height": 15.99, "depth": 0.823}'
+      is_active: true
+      is_featured: true
+      metadata: '{"warranty": "1 year", "color": "Titanium Blue", "storage": "256GB"}'
+      images: '{"images/iphone-1.jpg", "images/iphone-2.jpg"}'
+      tags: '{"smartphone", "apple", "iphone", "5g"}'
+      rating: 4.92
+      review_count: 256
+    
+    - sku: "PROD-003"
+      name: "AirPods Pro (2nd generation)"
+      description: "Wireless earbuds with active noise cancellation"
+      price: 8990.00
+      cost: 6000.00
+      stock: 200
+      category: "Audio"
+      brand: "Apple"
+      weight: 0.056
+      dimensions: '{"width": 5.44, "height": 4.52, "depth": 2.14}'
+      is_active: true
+      is_featured: false
+      metadata: '{"warranty": "1 year", "color": "White"}'
+      images: '{"images/airpods-1.jpg"}'
+      tags: '{"audio", "wireless", "airpods"}'
+      rating: 4.78
+      review_count: 89
+
+# หมายเหตุ:
+# - ไฟล์นี้จะสร้าง INSERT statements สำหรับข้อมูลเริ่มต้น
+# - ควรใส่ข้อมูลที่จำเป็นต่อการทดสอบหรือข้อมูลพื้นฐาน
+# - สำหรับ JSONB และ Array ให้ใส่เป็น string ที่ escape แล้ว

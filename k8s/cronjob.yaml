@@ -1,0 +1,51 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: db-migration-scheduled
+  namespace: default
+  labels:
+    app: db-migration
+spec:
+  # Run every day at 2 AM (adjust as needed)
+  schedule: "0 2 * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 3600
+      backoffLimit: 3
+      template:
+        metadata:
+          labels:
+            app: db-migration
+            type: scheduled
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: migrator
+            image: your-registry/fundii-database-migration:latest
+            imagePullPolicy: Always
+            command: ["./migrator"]
+            args:
+              - "-db=all"
+              - "-type=schema"
+              - "-action=up"
+              - "-verbose=true"
+            env:
+            - name: POSTGRES_DSN
+              valueFrom:
+                secretKeyRef:
+                  name: database-credentials
+                  key: POSTGRES_DSN
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: database-credentials
+                  key: MONGO_URI
+            resources:
+              requests:
+                memory: "64Mi"
+                cpu: "100m"
+              limits:
+                memory: "128Mi"
+                cpu: "200m"

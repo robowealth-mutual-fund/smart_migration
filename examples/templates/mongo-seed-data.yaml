@@ -1,0 +1,140 @@
+database:
+  type: mongo
+  name: product
+
+# Seed data - สำหรับเติมข้อมูลเบื้องต้น
+seed:
+  collection: products
+  
+  # คำแนะนำ: ใส่ข้อมูลลงใน documents
+  documents:
+    - sku: "PROD-001"
+      name: "MacBook Pro 16-inch"
+      description: "Apple MacBook Pro with M3 Max chip"
+      price: 89990.00
+      cost: 65000.00
+      stock: 50
+      category: "Laptops"
+      brand: "Apple"
+      weight: 2.16
+      dimensions:
+        width: 35.57
+        height: 24.81
+        depth: 1.68
+        unit: "cm"
+      isActive: true
+      isFeatured: true
+      metadata:
+        warranty: "1 year"
+        color: "Space Gray"
+        processor: "M3 Max"
+        ram: "36GB"
+        storage: "1TB SSD"
+      images:
+        - "images/macbook-1.jpg"
+        - "images/macbook-2.jpg"
+        - "images/macbook-3.jpg"
+      tags:
+        - laptop
+        - apple
+        - macbook
+        - m3
+      rating: 4.85
+      reviewCount: 127
+      specifications:
+        screen: "16.2-inch Liquid Retina XDR"
+        resolution: "3456 x 2234"
+        battery: "100Wh"
+        ports:
+          - "3x Thunderbolt 4"
+          - "1x HDMI"
+          - "1x MagSafe 3"
+      createdAt: "2024-01-15T10:30:00Z"
+      updatedAt: "2024-01-15T10:30:00Z"
+    
+    - sku: "PROD-002"
+      name: "iPhone 15 Pro Max"
+      description: "Latest iPhone with A17 Pro chip"
+      price: 45990.00
+      cost: 32000.00
+      stock: 100
+      category: "Smartphones"
+      brand: "Apple"
+      weight: 0.221
+      dimensions:
+        width: 7.69
+        height: 15.99
+        depth: 0.823
+        unit: "cm"
+      isActive: true
+      isFeatured: true
+      metadata:
+        warranty: "1 year"
+        color: "Titanium Blue"
+        storage: "256GB"
+        processor: "A17 Pro"
+        camera: "48MP Main + 12MP Ultra Wide + 12MP Telephoto"
+      images:
+        - "images/iphone-1.jpg"
+        - "images/iphone-2.jpg"
+      tags:
+        - smartphone
+        - apple
+        - iphone
+        - 5g
+      rating: 4.92
+      reviewCount: 256
+      specifications:
+        screen: "6.7-inch Super Retina XDR"
+        resolution: "2796 x 1290"
+        battery: "4422mAh"
+        connectivity:
+          - "5G"
+          - "WiFi 6E"
+          - "Bluetooth 5.3"
+      createdAt: "2024-01-15T10:35:00Z"
+      updatedAt: "2024-01-15T10:35:00Z"
+    
+    - sku: "PROD-003"
+      name: "AirPods Pro (2nd generation)"
+      description: "Wireless earbuds with active noise cancellation"
+      price: 8990.00
+      cost: 6000.00
+      stock: 200
+      category: "Audio"
+      brand: "Apple"
+      weight: 0.056
+      dimensions:
+        width: 5.44
+        height: 4.52
+        depth: 2.14
+        unit: "cm"
+      isActive: true
+      isFeatured: false
+      metadata:
+        warranty: "1 year"
+        color: "White"
+        batteryLife: "6 hours"
+      images:
+        - "images/airpods-1.jpg"
+      tags:
+        - audio
+        - wireless
+        - airpods
+      rating: 4.78
+      reviewCount: 89
+      specifications:
+        features:
+          - "Active Noise Cancellation"
+          - "Adaptive Transparency"
+          - "Personalized Spatial Audio"
+        connectivity:
+          - "Bluetooth 5.3"
+        charging: "MagSafe and wireless"
+      createdAt: "2024-01-15T10:40:00Z"
+      updatedAt: "2024-01-15T10:40:00Z"
+
+# หมายเหตุ:
+# - ไฟล์นี้จะสร้าง insertMany() command สำหรับ MongoDB
+# - ควรใส่ข้อมูลที่จำเป็นต่อการทดสอบหรือข้อมูลพื้นฐาน
+# - สามารถใส่ nested objects และ arrays ได้ตรงๆ ในรูปแบบ YAML

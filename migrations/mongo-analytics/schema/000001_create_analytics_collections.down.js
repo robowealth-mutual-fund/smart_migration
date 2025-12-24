@@ -1,0 +1,5 @@
+[
+  {
+    "drop": "page_views"
+  }
+]

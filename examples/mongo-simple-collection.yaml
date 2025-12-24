@@ -1,0 +1,38 @@
+# Simple MongoDB Collection Example
+# Generate with: ./generate-migration.sh examples/mongo-simple-collection.yaml
+
+database:
+  type: mongo
+  name: product
+
+collection:
+  name: reviews
+  validator:
+    $jsonSchema:
+      bsonType: object
+      required: [productId, userId, rating, createdAt]
+      properties:
+        productId:
+          bsonType: string
+          description: Product ID
+        userId:
+          bsonType: string
+          description: User ID
+        rating:
+          bsonType: int
+          minimum: 1
+          maximum: 5
+          description: Rating from 1-5
+        comment:
+          bsonType: string
+          description: Review comment
+        helpful:
+          bsonType: int
+          minimum: 0
+          description: Number of helpful votes
+        createdAt:
+          bsonType: date
+          description: Creation timestamp
+        updatedAt:
+          bsonType: date
+          description: Update timestamp
