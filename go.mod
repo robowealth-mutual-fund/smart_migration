@@ -6,6 +6,7 @@ require (
 	github.com/golang-migrate/migrate/v4 v4.19.1
 	github.com/lib/pq v1.10.9
 	go.mongodb.org/mongo-driver v1.7.5
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
@@ -21,5 +22,4 @@ require (
 	golang.org/x/crypto v0.45.0 // indirect
 	golang.org/x/sync v0.18.0 // indirect
 	golang.org/x/text v0.31.0 // indirect
-	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
